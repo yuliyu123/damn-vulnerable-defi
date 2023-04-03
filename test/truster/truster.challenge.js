@@ -23,12 +23,15 @@ describe('[Challenge] Truster', function () {
 
     it('Execution', async function () {
         /** CODE YOUR SOLUTION HERE */
+        const TrusterAttackerFactory = await ethers.getContractFactory("TrusterAttacker", player);
+        await TrusterAttackerFactory.deploy(TOKENS_IN_POOL, pool.address, token.address);
     });
-
+    
     after(async function () {
         /** SUCCESS CONDITIONS - NO NEED TO CHANGE ANYTHING HERE */
 
         // Player has taken all tokens from the pool
+        console.log("await token.balanceOf(player.address): ", await token.balanceOf(player.address));
         expect(
             await token.balanceOf(player.address)
         ).to.equal(TOKENS_IN_POOL);
