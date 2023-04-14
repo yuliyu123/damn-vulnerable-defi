@@ -45,7 +45,9 @@ describe('[Challenge] Unstoppable', function () {
 
     it('Execution', async function () {
         /** CODE YOUR SOLUTION HERE */
-    });
+        await token
+            .connect(player)
+            .transfer(vault.address, ethers.utils.parseEther("1"));    });
 
     after(async function () {
         /** SUCCESS CONDITIONS - NO NEED TO CHANGE ANYTHING HERE */

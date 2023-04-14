@@ -61,6 +61,7 @@ contract PuppetV2Pool {
     }
 
     // Fetch the price from Uniswap v2 using the official libraries
+    // reservesWETH and reservesToken can be manipulated by attacker
     function _getOracleQuote(uint256 amount) private view returns (uint256) {
         (uint256 reservesWETH, uint256 reservesToken) =
             UniswapV2Library.getReserves(_uniswapFactory, address(_weth), address(_token));

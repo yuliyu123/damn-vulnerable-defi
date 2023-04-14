@@ -57,6 +57,7 @@ contract PuppetPool is ReentrancyGuard {
         return amount * _computeOraclePrice() * DEPOSIT_FACTOR / 10 ** 18;
     }
 
+    // oracle manipulate, 用eth增加token balance, 计算price会偏小
     function _computeOraclePrice() private view returns (uint256) {
         // calculates the price of the token in wei according to Uniswap pair
         return uniswapPair.balance * (10 ** 18) / token.balanceOf(uniswapPair);

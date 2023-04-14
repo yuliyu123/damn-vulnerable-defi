@@ -34,6 +34,7 @@ contract NaiveReceiverLenderPool is ReentrancyGuard, IERC3156FlashLender {
         return FIXED_FEE;
     }
 
+// 每次flashloan都会从receiver多收取 FIXED_FEE = 1 ether的fee。goal: drain all eth in user contract.
     function flashLoan(
         IERC3156FlashBorrower receiver,
         address token,

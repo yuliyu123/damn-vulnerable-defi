@@ -21,6 +21,7 @@ contract FlashLoanReceiver is IERC3156FlashBorrower {
         pool = _pool;
     }
 
+    // 没有做访问控制，任何人都可以调用
     function onFlashLoan(
         address,
         address token,
