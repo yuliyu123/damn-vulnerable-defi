@@ -13,6 +13,7 @@ import "@uniswap/v3-periphery/contracts/libraries/OracleLibrary.sol";
  */
 contract PuppetV3Pool {
     uint256 public constant DEPOSIT_FACTOR = 3;
+    // twap period time is too short.
     uint32 public constant TWAP_PERIOD = 10 minutes;
 
     IERC20Minimal public immutable weth;
@@ -55,7 +56,7 @@ contract PuppetV3Pool {
         return quote * DEPOSIT_FACTOR;
     }
 
-// v3价格操纵？？？
+    // v3价格操纵？？？
     function _getOracleQuote(uint128 amount) private view returns (uint256) {
         (int24 arithmeticMeanTick,) = OracleLibrary.consult(address(uniswapV3Pool), TWAP_PERIOD);
         return OracleLibrary.getQuoteAtTick(
